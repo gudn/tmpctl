@@ -6,3 +6,5 @@ edition = "2021"
 authors = ["Daniil Novoselov <gudnmail@gmail.com>"]
 
 [dependencies]
+regex = "1"
+lazy_static = "1"
