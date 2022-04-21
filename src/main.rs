@@ -11,19 +11,19 @@ where
   C: FnMut(PathBuf) -> Result<()>,
 {
   let path = path.as_ref();
-  let mut should_delete = !ignorers.is_match(path)?;
+  let mut should_delete = true;
   for entry in path.read_dir()? {
     let entry = entry?;
     let p = entry.path();
-    if entry.metadata()?.is_dir() {
-      if dfs(&p, cb, ignorers)? {
-        cb(p)?;
-      } else {
-        should_delete = false;
-      }
+    if ignorers.is_match(&p)? {
+      should_delete = false;
     } else {
-      if ignorers.is_match(&p)? {
-        should_delete = false;
+      if entry.metadata()?.is_dir() {
+        if dfs(&p, cb, ignorers)? {
+          cb(p)?;
+        } else {
+          should_delete = false;
+        }
       } else {
         cb(p)?;
       }
