@@ -54,7 +54,7 @@ fn parse_line(line: &str) -> String {
   while let Some(c) = chars.next() {
     if out.is_empty() && c == '/' {
       slash_count += 2;
-      continue
+      continue;
     }
     last_slash = process_char(c, &mut chars, &mut out);
     if last_slash {
@@ -73,7 +73,7 @@ fn parse_line(line: &str) -> String {
   out
 }
 
-fn parse_lines<B: io::BufRead>(lines_: io::Lines<B>) -> Result<RegexSet, crate::Error> {
+pub(crate) fn parse_lines<B: io::BufRead>(lines_: io::Lines<B>) -> Result<RegexSet, crate::Error> {
   let mut lines = Vec::with_capacity(lines_.size_hint().1.unwrap_or_default());
   for l in lines_ {
     lines.push(l?);
@@ -101,7 +101,7 @@ fn parse_lines<B: io::BufRead>(lines_: io::Lines<B>) -> Result<RegexSet, crate::
 mod tests {
   use std::io::BufRead;
 
-use super::*;
+  use super::*;
 
   static FILE: &str = r#"
 # ignore this line
@@ -115,7 +115,7 @@ s*.patt
 "#;
 
   #[test]
-  fn matching_files() -> Result<(), crate::Error>{
+  fn matching_files() -> Result<(), crate::Error> {
     let reader = io::Cursor::new(FILE.as_bytes());
     let reader = io::BufReader::new(reader);
     let set = parse_lines(reader.lines())?;
