@@ -8,3 +8,4 @@ authors = ["Daniil Novoselov <gudnmail@gmail.com>"]
 [dependencies]
 regex = "1"
 lazy_static = "1"
+clap = { version = "3", features = ["derive"] }
