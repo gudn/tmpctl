@@ -17,16 +17,14 @@ where
     let p = entry.path();
     if ignorers.is_match(&p)? {
       should_delete = false;
-    } else {
-      if entry.metadata()?.is_dir() {
-        if dfs(&p, cb, ignorers)? {
-          cb(p)?;
-        } else {
-          should_delete = false;
-        }
-      } else {
+    } else if entry.metadata()?.is_dir() {
+      if dfs(&p, cb, ignorers)? {
         cb(p)?;
+      } else {
+        should_delete = false;
       }
+    } else {
+      cb(p)?;
     }
   }
   Ok(should_delete)

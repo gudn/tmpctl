@@ -47,7 +47,7 @@ fn process_char(c: char, chars: &mut std::str::Chars, out: &mut String) -> bool 
 }
 
 fn parse_line(line: &str) -> String {
-  if let Some(line) = line.strip_prefix(":") {
+  if let Some(line) = line.strip_prefix(':') {
     return line.trim().to_string();
   }
   let mut out = String::with_capacity(line.len());
