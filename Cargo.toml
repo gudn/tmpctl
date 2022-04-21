@@ -3,7 +3,12 @@ name = "tmpctl"
 version = "0.1.0"
 license = "MIT"
 edition = "2021"
+description = "Simple utility for clean temporal files"
 authors = ["Daniil Novoselov <gudnmail@gmail.com>"]
+readme = "README.md"
+repository = "https://github.com/gudn/tmpctl"
+keywords = ["cli", "file-system", "utility"]
+categories = ["command-line-utilities", "filesystem"]
 
 [dependencies]
 regex = "1"
