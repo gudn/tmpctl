@@ -38,7 +38,11 @@ fn dry_run(p: PathBuf) -> Result<()> {
 }
 
 fn remove(p: PathBuf) -> Result<()> {
-  todo!()
+  if p.is_dir() {
+    std::fs::remove_dir(p).map_err(tmpctl::Error::from)
+  } else {
+    std::fs::remove_file(p).map_err(tmpctl::Error::from)
+  }
 }
 
 fn main() -> Result<()> {
