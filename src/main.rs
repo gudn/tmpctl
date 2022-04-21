@@ -49,10 +49,10 @@ fn main() -> Result<()> {
   let args = cli::Cli::parse();
   let ignorers = tmpctl::Ignorers::new(&args.path)?;
   let p = std::fs::canonicalize(args.path)?;
-  if args.dry_run {
-    dfs(p, &mut dry_run, &ignorers)?;
-  } else {
+  if args.force {
     dfs(p, &mut remove, &ignorers)?;
+  } else {
+    dfs(p, &mut dry_run, &ignorers)?;
   }
   Ok(())
 }
