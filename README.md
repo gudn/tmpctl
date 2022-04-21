@@ -20,6 +20,7 @@ src/
 Cargo.*
 # will match .git folder and .gitignore file
 .git
+:some[[:alpha:]]regex$
 ```
 
 `tmpctl` will read all ignore files in parent like this:
