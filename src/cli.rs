@@ -7,5 +7,5 @@ pub(crate) struct Cli {
   #[clap(long, help = "really remove matched files")]
   pub(crate) force: bool,
   #[clap(parse(from_os_str), default_value = ".")]
-  pub(crate) path: PathBuf,
+  pub(crate) paths: Vec<PathBuf>,
 }

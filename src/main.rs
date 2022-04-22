@@ -45,12 +45,22 @@ fn remove(p: PathBuf) -> Result<()> {
 
 fn main() -> Result<()> {
   let args = cli::Cli::parse();
-  let ignorers = tmpctl::Ignorers::new(&args.path)?;
-  let p = std::fs::canonicalize(args.path)?;
-  if args.force {
-    dfs(p, &mut remove, &ignorers)?;
-  } else {
-    dfs(p, &mut dry_run, &ignorers)?;
+  for path in args.paths {
+    let ignorers = tmpctl::Ignorers::new(&path)?;
+    let p = std::fs::canonicalize(path)?;
+    if p.is_dir() {
+      if args.force {
+        dfs(p, &mut remove, &ignorers)?;
+      } else {
+        dfs(p, &mut dry_run, &ignorers)?;
+      }
+    } else if p.is_file() && !ignorers.is_match(&p)? {
+      if args.force {
+        remove(p)?;
+      } else {
+        dry_run(p)?;
+      }
+    }
   }
   Ok(())
 }
