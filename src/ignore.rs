@@ -13,6 +13,7 @@ lazy_static! {
   static ref QUESTION_MARK: String = format!("[^{}]", *SEP);
   static ref ASTERIK_MARK: String = format!("[^{}]*", *SEP);
   static ref DOUBLE_ASTERIK_MARK: String = ".*".into();
+  static ref DOT_CHAR: String = "\\.".into();
 }
 
 fn process_char(c: char, chars: &mut std::str::Chars, out: &mut String) -> bool {
@@ -20,6 +21,10 @@ fn process_char(c: char, chars: &mut std::str::Chars, out: &mut String) -> bool 
     '/' => {
       out.push_str(SEP.as_str());
       true
+    }
+    '.' => {
+      out.push_str(DOT_CHAR.as_str());
+      false
     }
     '?' => {
       out.push_str(QUESTION_MARK.as_str());
