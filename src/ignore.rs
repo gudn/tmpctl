@@ -64,9 +64,14 @@ fn parse_line(line: &str) -> String {
       slash_count += 2;
       continue;
     }
-    last_slash = process_char(c, &mut chars, &mut out);
-    if last_slash {
-      slash_count += 1;
+    if !last_slash || c != '/' {
+      if last_slash {
+        out.push_str(r"\b");
+      }
+      last_slash = process_char(c, &mut chars, &mut out);
+      if last_slash {
+        slash_count += 1;
+      }
     }
   }
   if last_slash {
@@ -79,6 +84,11 @@ fn parse_line(line: &str) -> String {
   if slash_count > 0 {
     let mut new_out = String::with_capacity(out.len() + 1);
     new_out.push('^');
+    new_out.push_str(&out);
+    out = new_out
+  } else {
+    let mut new_out = String::with_capacity(out.len() + 1);
+    new_out.push_str(r"(?:^|\b)");
     new_out.push_str(&out);
     out = new_out
   }
@@ -138,7 +148,7 @@ s*.patt
     assert!(set.is_match(b"compiled.pyc"));
     assert!(set.is_match(b"in/some/sad.patt"));
     // FIXME
-    // assert!(!set.is_match(b"in/some/2sad.patt"));
+    assert!(!set.is_match(b"in/some/2sad.patt"));
     assert!(set.is_match(b"sub1/blabla/sub2"));
     assert!(!set.is_match(b"sub1/bla/bla/sub2"));
     assert!(set.is_match(b"sub3/blabla/sub4"));

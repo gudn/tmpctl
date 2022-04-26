@@ -8,7 +8,7 @@ When tmpctl scan file tree, it also find `.tmpignore` files in parent
 directories (but not in childs). Syntax is almost like gitignore files except
 three parts:
 - No `!` syntax
-- Matching based on regexps, so `s*.patt` will match `234sbla.patt`
+- Matching based on regexps, in any problem write regex manually
 - Supports raw regexp matching. Just start line with `:` colon and write your
   regular expressions. All paths is relative to `.tmpignore` directory
   
@@ -18,7 +18,7 @@ Example:
 # Comment
 src/
 Cargo.*
-# will match .git folder and .gitignore file
+# will match .git folder and .git file
 .git
 :some[[:alpha:]]regex$
 ```
