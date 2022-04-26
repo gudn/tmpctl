@@ -71,7 +71,11 @@ fn parse_line(line: &str) -> String {
   }
   if last_slash {
     slash_count -= 1
+  } else {
+    out.push_str(SEP.as_str());
+    out.push('?');
   }
+  out.push('$');
   if slash_count > 0 {
     let mut new_out = String::with_capacity(out.len() + 1);
     new_out.push('^');
@@ -127,7 +131,7 @@ s*.patt
     let reader = io::Cursor::new(FILE.as_bytes());
     let reader = io::BufReader::new(reader);
     let set = parse_lines(reader.lines())?;
-    assert!(set.is_match(b"some/file/again"));
+    assert!(!set.is_match(b"some/file/again"));
     assert!(set.is_match(b"some/file"));
     assert!(!set.is_match(b"not/some/file"));
     assert!(set.is_match(b"in/some/files/"));
